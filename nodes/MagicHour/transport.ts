@@ -49,10 +49,10 @@ function describeError(error: unknown): string {
 	const err = error as { httpCode?: string; statusCode?: number; message?: string };
 	const code = Number(err.httpCode ?? err.statusCode);
 	if (code === 401 || code === 403) {
-		return 'Magic Hour rejected the API key. Check the credential, or create a new key at magichour.ai/developer.';
+		return 'Magic Hour rejected the API key. Check the credential, or create a new key at https://magichour.ai/developer?tab=api-keys.';
 	}
 	if (code === 402) {
-		return 'Not enough Magic Hour credits for this generation. Top up at magichour.ai.';
+		return 'Not enough Magic Hour credits for this generation. Top up at https://magichour.ai/pricing.';
 	}
 	if (code === 429) {
 		return 'Magic Hour rate limit reached. Reduce the batch size or add a Wait node between items.';
