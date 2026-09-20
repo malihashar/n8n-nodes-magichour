@@ -1,0 +1,81 @@
+{
+  "name": "Magic Hour — Social video factory",
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "description": "Sheet of prompts → Magic Hour Text-to-Video → storage"
+  },
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "documentId": { "__rl": true, "mode": "list", "value": "" },
+        "sheetName": { "__rl": true, "mode": "list", "value": "" },
+        "options": {}
+      },
+      "id": "sheets",
+      "name": "Prompt Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [240, 0],
+      "notes": "Columns: row_id, prompt, aspect_ratio (optional)"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "textToVideo",
+        "prompt": "={{ $json.prompt }}",
+        "durationSeconds": 5,
+        "externalId": "={{ $json.row_id }}",
+        "waitForCompletion": true,
+        "timeoutSeconds": 900,
+        "options": {
+          "resolution": "720p",
+          "aspectRatio": "={{ $json.aspect_ratio || '9:16' }}"
+        }
+      },
+      "id": "mh",
+      "name": "Magic Hour T2V",
+      "type": "n8n-nodes-magichour.magicHour",
+      "typeVersion": 1,
+      "position": [480, 0],
+      "credentials": { "magicHourApi": { "id": "REPLACE", "name": "Magic Hour API" } }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "url": "={{ $json.outputUrl }}",
+        "options": { "response": { "response": { "responseFormat": "file" } } }
+      },
+      "id": "dl",
+      "name": "Download Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 0]
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Prompt Sheet').item.json.row_id }}_social.mp4",
+        "driveId": { "__rl": true, "mode": "list", "value": "My Drive" },
+        "folderId": { "__rl": true, "mode": "list", "value": "root" }
+      },
+      "id": "drive",
+      "name": "Save to Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [960, 0]
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": { "main": [[{ "node": "Prompt Sheet", "type": "main", "index": 0 }]] },
+    "Prompt Sheet": { "main": [[{ "node": "Magic Hour T2V", "type": "main", "index": 0 }]] },
+    "Magic Hour T2V": { "main": [[{ "node": "Download Video", "type": "main", "index": 0 }]] },
+    "Download Video": { "main": [[{ "node": "Save to Drive", "type": "main", "index": 0 }]] }
+  }
+}

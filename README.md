@@ -163,6 +163,16 @@ Wait node between items resolves it.
 Import [`workflows/image-to-video.example.json`](workflows/image-to-video.example.json)
 into n8n, attach your Magic Hour credential, and run.
 
+## Templates (§11)
+
+| Template | File |
+|---|---|
+| A — Product video automation | [`templates/A-product-video-automation.json`](templates/A-product-video-automation.json) |
+| B — Social video factory | [`templates/B-social-video-factory.json`](templates/B-social-video-factory.json) |
+| C — UGC talking photo | [`templates/C-ugc-talking-photo.json`](templates/C-ugc-talking-photo.json) |
+
+Launch status vs the official brief: [`STATUS.md`](STATUS.md). E2E checklist: [`TESTING.md`](TESTING.md).
+
 ## Coverage check
 
 ```bash
