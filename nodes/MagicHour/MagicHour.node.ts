@@ -9,6 +9,7 @@ import type {
 import { NodeApiError, NodeConnectionTypes, NodeOperationError } from 'n8n-workflow';
 
 import {
+	AUDIO_OPERATIONS,
 	IMAGE_OPERATIONS,
 	VIDEO_OPERATIONS,
 	findOperation,
@@ -16,6 +17,14 @@ import {
 	type Operation,
 } from './operations';
 import { magicHourRequest, uploadBinary, waitForCompletion } from './transport';
+
+const SCHEMA_VERSION = '1.0';
+
+const MEDIA_MIME: Record<string, string> = {
+	video: 'video/mp4',
+	image: 'image/png',
+	audio: 'audio/mpeg',
+};
 
 export class MagicHour implements INodeType {
 	description: INodeTypeDescription = {
@@ -25,7 +34,7 @@ export class MagicHour implements INodeType {
 		group: ['transform'],
 		version: [1],
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Generate and edit video and images with Magic Hour',
+		description: 'Generate and edit video, image and audio with Magic Hour',
 		defaults: { name: 'Magic Hour' },
 		inputs: [NodeConnectionTypes.Main],
 		outputs: [NodeConnectionTypes.Main],
@@ -42,6 +51,7 @@ export class MagicHour implements INodeType {
 				options: [
 					{ name: 'Video', value: 'video' },
 					{ name: 'Image', value: 'image' },
+					{ name: 'Audio', value: 'audio' },
 					{ name: 'Project', value: 'project' },
 				],
 			},
@@ -64,6 +74,17 @@ export class MagicHour implements INodeType {
 				default: 'generateImage',
 				displayOptions: { show: { resource: ['image'] } },
 				options: IMAGE_OPERATIONS.map((op) => ({
+					name: op.name, value: op.value, action: op.action, description: op.description,
+				})),
+			},
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				default: 'voiceGenerator',
+				displayOptions: { show: { resource: ['audio'] } },
+				options: AUDIO_OPERATIONS.map((op) => ({
 					name: op.name, value: op.value, action: op.action, description: op.description,
 				})),
 			},
@@ -105,7 +126,17 @@ export class MagicHour implements INodeType {
 
 			...operationProperties('video', VIDEO_OPERATIONS),
 			...operationProperties('image', IMAGE_OPERATIONS),
+			...operationProperties('audio', AUDIO_OPERATIONS),
 
+			{
+				displayName: 'External ID',
+				name: 'externalId',
+				type: 'string',
+				default: '',
+				description:
+					'Your own ID for this item. Round-trips on the output so batch results can join back to your catalog — same role as Apify externalId.',
+				displayOptions: { show: { resource: ['video', 'image', 'audio'] } },
+			},
 			{
 				displayName: 'Wait for Completion',
 				name: 'waitForCompletion',
@@ -113,7 +144,7 @@ export class MagicHour implements INodeType {
 				default: true,
 				description:
 					'Whether to wait for the generation to finish and return the media URL. Turn off to get the project ID immediately and poll separately.',
-				displayOptions: { show: { resource: ['video', 'image'] } },
+				displayOptions: { show: { resource: ['video', 'image', 'audio'] } },
 			},
 			{
 				displayName: 'Timeout (Seconds)',
@@ -123,7 +154,9 @@ export class MagicHour implements INodeType {
 				description:
 					'How long to wait before giving up. Long video can take several minutes; the job keeps running on Magic Hour either way.',
 				typeOptions: { minValue: 30, maxValue: 3600 },
-				displayOptions: { show: { resource: ['video', 'image'], waitForCompletion: [true] } },
+				displayOptions: {
+					show: { resource: ['video', 'image', 'audio'], waitForCompletion: [true] },
+				},
 			},
 		],
 	};
@@ -153,6 +186,7 @@ export class MagicHour implements INodeType {
 					);
 				}
 
+				const externalId = (this.getNodeParameter('externalId', i, '') as string) || null;
 				const payload = await buildPayload.call(this, op, i);
 				const created = await magicHourRequest.call(this, 'POST', op.path, payload);
 				const projectId = String(created.id ?? '');
@@ -167,12 +201,17 @@ export class MagicHour implements INodeType {
 				const wait = this.getNodeParameter('waitForCompletion', i, true) as boolean;
 				if (!wait) {
 					results.push({
-						json: {
-							projectId,
-							status: created.status ?? 'queued',
-							creditsCharged: created.credits_charged ?? null,
+						json: shapeOutput({
+							status: String(created.status ?? 'queued'),
 							operation: op.value,
-						},
+							slug: op.slug,
+							mediaType: MEDIA_MIME[op.mediaType] ?? null,
+							projectId,
+							externalId,
+							creditsCharged: (created.credits_charged as number | null) ?? null,
+							outputUrl: null,
+							downloadUrls: [],
+						}),
 						pairedItem: { item: i },
 					});
 					continue;
@@ -192,22 +231,44 @@ export class MagicHour implements INodeType {
 				}
 
 				results.push({
-					json: {
-						projectId,
-						status: result.status,
+					json: shapeOutput({
+						status: 'succeeded',
 						operation: op.value,
+						slug: op.slug,
+						mediaType: MEDIA_MIME[op.mediaType] ?? null,
+						projectId,
+						externalId,
 						creditsCharged: result.creditsCharged ?? null,
-						downloadUrl: result.downloads[0] ?? null,
+						outputUrl: result.downloads[0] ?? null,
 						downloadUrls: result.downloads,
-					},
+					}),
 					pairedItem: { item: i },
 				});
 			} catch (error) {
 				// Honour the workflow's own error setting rather than always
 				// stopping: a 200-item batch should not die on one bad row.
 				if (this.continueOnFail()) {
+					const externalId = (() => {
+						try {
+							return (this.getNodeParameter('externalId', i, '') as string) || null;
+						} catch {
+							return null;
+						}
+					})();
 					results.push({
-						json: { error: (error as Error).message },
+						json: shapeOutput({
+							status: 'failed',
+							operation: (this.getNodeParameter('operation', i, '') as string) || null,
+							slug: null,
+							mediaType: null,
+							projectId: null,
+							externalId,
+							creditsCharged: null,
+							outputUrl: null,
+							downloadUrls: [],
+							errorCode: 'generation_failed',
+							errorMessage: (error as Error).message,
+						}),
 						pairedItem: { item: i },
 					});
 					continue;
@@ -223,6 +284,37 @@ export class MagicHour implements INodeType {
 	}
 }
 
+/** Same field list spirit as Apify gateway/output.py — one shape across ops. */
+function shapeOutput(fields: {
+	status: string;
+	operation: string | null;
+	slug: string | null;
+	mediaType: string | null;
+	projectId: string | null;
+	externalId: string | null;
+	creditsCharged: number | null;
+	outputUrl: string | null;
+	downloadUrls: string[];
+	errorCode?: string | null;
+	errorMessage?: string | null;
+}): IDataObject {
+	return {
+		schemaVersion: SCHEMA_VERSION,
+		externalId: fields.externalId,
+		status: fields.status,
+		operation: fields.operation,
+		slug: fields.slug,
+		outputUrl: fields.outputUrl,
+		downloadUrl: fields.outputUrl,
+		downloadUrls: fields.downloadUrls,
+		mediaType: fields.mediaType,
+		projectId: fields.projectId,
+		creditsCharged: fields.creditsCharged,
+		errorCode: fields.errorCode ?? null,
+		errorMessage: fields.errorMessage ?? null,
+	};
+}
+
 /** Assemble the create-request body, uploading any binary inputs first. */
 async function buildPayload(
 	this: IExecuteFunctions,
@@ -231,6 +323,7 @@ async function buildPayload(
 ): Promise<IDataObject> {
 	const payload: IDataObject = { name: `${op.name} via n8n` };
 	const assets: IDataObject = {};
+	const style: IDataObject = {};
 
 	for (const media of op.media) {
 		const source = this.getNodeParameter(`${media.name}Source`, itemIndex, 'binary') as string;
@@ -266,7 +359,7 @@ async function buildPayload(
 				this.getNode(), `A prompt is required for ${op.name}`, { itemIndex },
 			);
 		}
-		if (prompt) payload.style = { prompt };
+		if (prompt) style.prompt = prompt;
 	}
 
 	if (op.duration) {
@@ -275,9 +368,42 @@ async function buildPayload(
 		if (op.window) payload.start_seconds = 0;
 	}
 
+	if (op.specials?.includes('scaleFactor')) {
+		payload.scale_factor = this.getNodeParameter('scaleFactor', itemIndex, 2) as number;
+	}
+	if (op.specials?.includes('qrContent')) {
+		payload.content = this.getNodeParameter('qrContent', itemIndex, '') as string;
+	}
+	if (op.specials?.includes('voiceName')) {
+		style.voice_name = this.getNodeParameter('voiceName', itemIndex, 'Elon Musk') as string;
+	}
+	if (op.specials?.includes('memeTopic')) {
+		style.topic = this.getNodeParameter('memeTopic', itemIndex, '') as string;
+	}
+	if (op.specials?.includes('memeTemplate')) {
+		style.template = this.getNodeParameter('memeTemplate', itemIndex, 'Random') as string;
+	}
+	if (op.specials?.includes('artStyle')) {
+		style.art_style = this.getNodeParameter('artStyle', itemIndex, '') as string;
+	}
+
+	// Animation needs a few required style enums; default to directed-by-AI so
+	// a workflow author is not forced through every slider on first use.
+	if (op.slug === 'animation') {
+		if (!style.art_style) style.art_style = 'Directed by AI';
+		style.camera_effect = style.camera_effect ?? 'Simple Zoom In';
+		style.prompt_type = style.prompt_type ?? (style.prompt ? 'custom' : 'ai_choose');
+		style.transition_speed = style.transition_speed ?? 5;
+	}
+
 	if (options.model && options.model !== 'default') payload.model = options.model;
 	if (options.resolution) payload.resolution = options.resolution;
 	if (options.aspectRatio) payload.aspect_ratio = options.aspectRatio;
+
+	// body-swap requires resolution — default when the Options collection is empty
+	if (op.slug === 'body-swap' && !payload.resolution) {
+		payload.resolution = '1k';
+	}
 
 	const extra = op.extra?.(options) ?? {};
 	const extraAssets = (extra.assets ?? {}) as IDataObject;
@@ -286,6 +412,7 @@ async function buildPayload(
 
 	const merged = { ...extraAssets, ...assets };
 	if (Object.keys(merged).length) payload.assets = merged;
+	if (Object.keys(style).length || op.requiresStyle) payload.style = style;
 
 	return payload;
 }

@@ -1,47 +1,83 @@
 # n8n-nodes-magichour
 
-Generate and edit video and images with [Magic Hour](https://magichour.ai) from
-inside n8n.
+Generate and edit video, image and audio with [Magic Hour](https://magichour.ai)
+from inside n8n.
 
-This is the official Magic Hour node, maintained by Magic Hour.
+This is the official Magic Hour node, maintained by Magic Hour. It covers the
+same **27 generation endpoints** as the Apify Actors in
+[`magic-hour-channels`](https://github.com/magichourhq/magic-hour-channels),
+driven from a shared catalog (`catalog/operations.json`).
 
 ## Installation
 
-**n8n Cloud** — search for "Magic Hour" in the nodes panel.
+**n8n Cloud** — search for "Magic Hour" in the nodes panel (after npm publish).
 
 **Self-hosted** — Settings → Community Nodes → Install, then enter
 `@magichourhq/n8n-nodes-magichour`.
+
+**Local / unpublished** — from this repo:
+
+```bash
+npm install
+npm run build
+# then link into your n8n custom extensions folder, or:
+npm run dev
+```
 
 ## Credentials
 
 You need a Magic Hour API key. Create one in the
 [developer dashboard](https://magichour.ai/developer?tab=api-keys), then add it
 once as a **Magic Hour API** credential. Every Magic Hour node in your
-workflows reuses it. Generations are billed to that account.
+workflows reuses it. Generations are billed to that account (BYOK — there is no
+n8n pay-per-event layer like Apify PPE).
 
 Saving the credential verifies the key with a read-only call, so a wrong key
 fails immediately rather than on your first generation.
 
 ## Operations
 
-### Video
+### Video (11)
 
-| Operation | Inputs |
+| Operation | Endpoint |
 |---|---|
-| Image to Video | image, optional prompt, duration |
-| Text to Video | prompt, duration |
-| Video Face Swap | face image, target video |
-| Talking Photo | portrait, audio |
-| Lip Sync | video, audio |
-| Character Replace | video, character image |
+| Image to Video | `/image-to-video` |
+| Text to Video | `/text-to-video` |
+| Video Face Swap | `/face-swap` |
+| Talking Photo | `/ai-talking-photo` |
+| Lip Sync | `/lip-sync` |
+| Character Replace | `/character-replace` |
+| Edit Video | `/ai-video-editor` |
+| Video to Video | `/video-to-video` |
+| Audio to Video | `/audio-to-video` |
+| Auto Subtitles | `/auto-subtitle-generator` |
+| Animation | `/animation` |
 
-### Image
+### Image (14)
 
-| Operation | Inputs |
+| Operation | Endpoint |
 |---|---|
-| Generate Image | prompt |
-| Edit Image | image, instruction |
-| Image Face Swap | source face, target photo |
+| Generate Image | `/ai-image-generator` |
+| Edit Image | `/ai-image-editor` |
+| Image Face Swap | `/face-swap-photo` |
+| Upscale Image | `/ai-image-upscaler` |
+| Remove Background | `/image-background-remover` |
+| Headshot | `/ai-headshot-generator` |
+| Clothes Changer | `/ai-clothes-changer` |
+| Head Swap | `/head-swap` |
+| Body Swap | `/body-swap` |
+| Face Editor | `/ai-face-editor` |
+| GIF Generator | `/ai-gif-generator` |
+| Meme Generator | `/ai-meme-generator` |
+| Photo Colorizer | `/photo-colorizer` |
+| QR Code Generator | `/ai-qr-code-generator` |
+
+### Audio (2)
+
+| Operation | Endpoint |
+|---|---|
+| Voice Generator | `/ai-voice-generator` |
+| Voice Cloner | `/ai-voice-cloner` |
 
 ### Project
 
@@ -78,19 +114,37 @@ and the job keeps running on Magic Hour, so nothing is lost.
 
 ## Output
 
+One shape across every operation (aligned with the Apify Actor dataset):
+
 ```json
 {
-  "projectId": "clx1234567890",
-  "status": "complete",
+  "schemaVersion": "1.0",
+  "externalId": "row-42",
+  "status": "succeeded",
   "operation": "imageToVideo",
-  "creditsCharged": 120,
+  "slug": "image-to-video",
+  "outputUrl": "https://...",
   "downloadUrl": "https://...",
-  "downloadUrls": ["https://..."]
+  "downloadUrls": ["https://..."],
+  "mediaType": "video/mp4",
+  "projectId": "clx1234567890",
+  "creditsCharged": 120,
+  "errorCode": null,
+  "errorMessage": null
 }
 ```
 
+Set **External ID** to round-trip your own catalog key through a batch.
+
 Magic Hour download URLs expire, so add a node that saves the file if you need
 to keep it.
+
+## Pricing
+
+Unlike Apify Store PPE, n8n does not take a platform cut on generations.
+Credits are charged on the caller's Magic Hour account only. Use
+`creditsCharged` on the output (and
+[Magic Hour pricing](https://magichour.ai/pricing)) for cost tracking.
 
 ## Batches and loops
 
@@ -98,10 +152,25 @@ Each input item is processed in turn, and output items are paired back to their
 input, so results stay aligned when you feed in a spreadsheet or a folder.
 
 Turn on **Continue On Fail** if you would rather a 200-row batch skip a bad row
-than stop. Failed items come through with an `error` field.
+than stop. Failed items come through with `status: "failed"` and an
+`errorMessage`.
 
 Magic Hour rate-limits heavy bursts; if you hit one, the node says so and a
 Wait node between items resolves it.
+
+## Example workflow
+
+Import [`workflows/image-to-video.example.json`](workflows/image-to-video.example.json)
+into n8n, attach your Magic Hour credential, and run.
+
+## Coverage check
+
+```bash
+npm run coverage
+```
+
+Fails if `catalog/operations.json` lists an endpoint the node does not expose.
+Refresh the catalog from `magic-hour-channels` when Magic Hour ships new APIs.
 
 ## Use with AI Agents
 

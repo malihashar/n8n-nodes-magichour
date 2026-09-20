@@ -1,0 +1,2090 @@
+{
+  "source": "https://docs.magichour.ai/api-reference/openapi.json",
+  "count": 27,
+  "endpoints": {
+    "ai-clothes-changer": {
+      "path": "/v1/ai-clothes-changer",
+      "operation": "ai-clothes-changer",
+      "summary": "AI Clothes Changer",
+      "description": "Change outfits in photos in seconds with just a photo reference. Each photo costs 25 credits.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "person_file_path",
+          "garment_file_path"
+        ],
+        "fields": [
+          "garment_file_path",
+          "garment_type",
+          "person_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [],
+        "enums": {}
+      }
+    },
+    "ai-face-editor": {
+      "path": "/v1/ai-face-editor",
+      "operation": "ai-face-editor",
+      "summary": "AI Face Editor",
+      "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "assets",
+        "style"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "image_file_path"
+        ],
+        "fields": [
+          "image_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "enhance_face",
+          "eye_gaze_horizontal",
+          "eye_gaze_vertical",
+          "eye_open_ratio",
+          "eyebrow_direction",
+          "head_pitch",
+          "head_roll",
+          "head_yaw",
+          "lip_open_ratio",
+          "mouth_grim",
+          "mouth_position_horizontal",
+          "mouth_position_vertical",
+          "mouth_pout",
+          "mouth_purse",
+          "mouth_smile"
+        ],
+        "enums": {}
+      }
+    },
+    "ai-gif-generator": {
+      "path": "/v1/ai-gif-generator",
+      "operation": "ai-gif-generator",
+      "summary": "AI GIF Generator",
+      "description": "Create an AI GIF. Each GIF costs 50 credits.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "style"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "output_format": {
+          "type": "string",
+          "enum": [
+            "gif",
+            "mp4",
+            "webm"
+          ]
+        }
+      },
+      "assets": {
+        "required": [],
+        "fields": []
+      },
+      "style": {
+        "required": [
+          "prompt"
+        ],
+        "fields": [
+          "prompt"
+        ],
+        "enums": {}
+      }
+    },
+    "ai-headshot-generator": {
+      "path": "/v1/ai-headshot-generator",
+      "operation": "ai-headshot-generator",
+      "summary": "AI Headshot Generator",
+      "description": "Create an AI headshot. Each headshot costs 50 credits.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "image_file_path"
+        ],
+        "fields": [
+          "image_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "prompt"
+        ],
+        "enums": {}
+      }
+    },
+    "ai-image-editor": {
+      "path": "/v1/ai-image-editor",
+      "operation": "ai-image-editor",
+      "summary": "AI Image Editor",
+      "description": "Edit images with AI.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "style",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "image_count": {
+          "type": "number",
+          "enum": [
+            1,
+            4,
+            9,
+            16
+          ]
+        },
+        "model": {
+          "type": "string",
+          "enum": [
+            "default",
+            "nano-banana-2",
+            "gpt-image-2",
+            "flux-2-klein",
+            "nano-banana-2-lite",
+            "qwen-edit",
+            "seedream-v4",
+            "seedream-v4.5",
+            "seedream-v5-pro",
+            "nano-banana",
+            "nano-banana-pro"
+          ]
+        },
+        "aspect_ratio": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "16:9",
+            "9:16",
+            "4:3",
+            "3:2",
+            "1:1",
+            "4:5",
+            "2:3"
+          ]
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "640px",
+            "1k",
+            "2k",
+            "4k"
+          ]
+        }
+      },
+      "assets": {
+        "required": [],
+        "fields": [
+          "image_file_paths"
+        ]
+      },
+      "style": {
+        "required": [
+          "prompt"
+        ],
+        "fields": [
+          "prompt"
+        ],
+        "enums": {}
+      }
+    },
+    "ai-image-generator": {
+      "path": "/v1/ai-image-generator",
+      "operation": "ai-image-generator",
+      "summary": "AI Image Generator",
+      "description": "Create an AI image with advanced model selection and quality controls.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "image_count",
+        "style"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "image_count": {
+          "type": "integer",
+          "enum": null
+        },
+        "model": {
+          "type": "string",
+          "enum": [
+            "default",
+            "nano-banana-2",
+            "gpt-image-2",
+            "z-image-turbo",
+            "flux-2-klein",
+            "nano-banana-2-lite",
+            "seedream-v4",
+            "seedream-v5-pro",
+            "nano-banana",
+            "nano-banana-pro",
+            "flux-schnell",
+            "seedream"
+          ]
+        },
+        "aspect_ratio": {
+          "type": "string",
+          "enum": [
+            "1:1",
+            "16:9",
+            "9:16"
+          ]
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "640px",
+            "1k",
+            "2k",
+            "4k"
+          ]
+        }
+      },
+      "assets": {
+        "required": [],
+        "fields": []
+      },
+      "style": {
+        "required": [
+          "prompt"
+        ],
+        "fields": [
+          "prompt",
+          "tool"
+        ],
+        "enums": {
+          "tool": [
+            "ai-anime-generator",
+            "ai-art-generator",
+            "ai-background-generator",
+            "ai-character-generator",
+            "ai-face-generator",
+            "ai-fashion-generator",
+            "ai-icon-generator",
+            "ai-illustration-generator",
+            "ai-interior-design-generator",
+            "ai-landscape-generator",
+            "ai-logo-generator",
+            "ai-manga-generator",
+            "ai-outfit-generator",
+            "ai-pattern-generator",
+            "ai-photo-generator",
+            "ai-sketch-generator",
+            "ai-tattoo-generator",
+            "album-cover-generator",
+            "animated-characters-generator",
+            "architecture-generator",
+            "book-cover-generator",
+            "comic-book-generator",
+            "dark-fantasy-ai",
+            "disney-ai-generator",
+            "dnd-ai-art-generator",
+            "emoji-generator",
+            "fantasy-map-generator",
+            "graffiti-generator",
+            "movie-poster-generator",
+            "optical-illusion-generator",
+            "pokemon-generator",
+            "south-park-character-generator",
+            "superhero-generator",
+            "thumbnail-maker",
+            "general"
+          ]
+        }
+      }
+    },
+    "ai-image-upscaler": {
+      "path": "/v1/ai-image-upscaler",
+      "operation": "ai-image-upscaler",
+      "summary": "AI Image Upscaler",
+      "description": "Upscale your image using AI. Each 2x upscale costs 50 credits for balanced/creative modes, and 25 credits for preserve. 4x upscale costs 200 and 100 credits respectively.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "scale_factor",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "scale_factor": {
+          "type": "number",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "image_file_path"
+        ],
+        "fields": [
+          "image_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "mode",
+          "prompt"
+        ],
+        "enums": {
+          "mode": [
+            "pro",
+            "preserve",
+            "balanced",
+            "creative"
+          ]
+        }
+      }
+    },
+    "ai-meme-generator": {
+      "path": "/v1/ai-meme-generator",
+      "operation": "ai-meme-generator",
+      "summary": "AI Meme Generator",
+      "description": "Create an AI generated meme. Each meme costs 10 credits.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "style"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [],
+        "fields": []
+      },
+      "style": {
+        "required": [
+          "topic",
+          "template"
+        ],
+        "fields": [
+          "searchWeb",
+          "template",
+          "topic"
+        ],
+        "enums": {
+          "template": [
+            "Random",
+            "Drake Hotline Bling",
+            "Galaxy Brain",
+            "Two Buttons",
+            "Gru's Plan",
+            "Tuxedo Winnie The Pooh",
+            "Is This a Pigeon",
+            "Panik Kalm Panik",
+            "Disappointed Guy",
+            "Waiting Skeleton",
+            "Bike Fall",
+            "Change My Mind",
+            "Side Eyeing Chloe"
+          ]
+        }
+      }
+    },
+    "ai-qr-code-generator": {
+      "path": "/v1/ai-qr-code-generator",
+      "operation": "ai-qr-code-generator",
+      "summary": "AI QR Code Generator",
+      "description": "Create an AI QR code. Each QR code costs 0 credits.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "content",
+        "style"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "content": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [],
+        "fields": []
+      },
+      "style": {
+        "required": [
+          "art_style"
+        ],
+        "fields": [
+          "art_style"
+        ],
+        "enums": {}
+      }
+    },
+    "ai-talking-photo": {
+      "path": "/v1/ai-talking-photo",
+      "operation": "ai-talking-photo",
+      "summary": "AI Talking Photo",
+      "description": "Create a talking photo from an image and audio or text input.",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "start_seconds",
+        "end_seconds",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "start_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "max_resolution": {
+          "type": "integer",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "image_file_path",
+          "audio_file_path"
+        ],
+        "fields": [
+          "audio_file_path",
+          "image_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "generation_mode",
+          "prompt"
+        ],
+        "enums": {
+          "generation_mode": [
+            "realistic",
+            "prompted",
+            "pro",
+            "standard",
+            "stable",
+            "expressive"
+          ]
+        }
+      }
+    },
+    "ai-video-editor": {
+      "path": "/v1/ai-video-editor",
+      "operation": "ai-video-editor",
+      "summary": "AI Video Editor",
+      "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-editor).",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "end_seconds",
+        "style",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "start_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "model": {
+          "type": "string",
+          "enum": [
+            "gemini-omni-1.1",
+            "gemini-omni",
+            "ltx-2.3"
+          ]
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "480p",
+            "720p",
+            "1080p"
+          ]
+        }
+      },
+      "assets": {
+        "required": [
+          "video_file_path"
+        ],
+        "fields": [
+          "video_file_path"
+        ]
+      },
+      "style": {
+        "required": [
+          "prompt"
+        ],
+        "fields": [
+          "prompt"
+        ],
+        "enums": {}
+      }
+    },
+    "ai-voice-cloner": {
+      "path": "/v1/ai-voice-cloner",
+      "operation": "ai-voice-cloner",
+      "summary": "AI Voice Cloner",
+      "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.1 credits. \n* The cost is rounded up to the nearest whole number",
+      "namespace": "audio-projects",
+      "output": "audio",
+      "required": [
+        "assets",
+        "style"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "audio_file_path"
+        ],
+        "fields": [
+          "audio_file_path"
+        ]
+      },
+      "style": {
+        "required": [
+          "prompt"
+        ],
+        "fields": [
+          "prompt"
+        ],
+        "enums": {}
+      }
+    },
+    "ai-voice-generator": {
+      "path": "/v1/ai-voice-generator",
+      "operation": "ai-voice-generator",
+      "summary": "AI Voice Generator",
+      "description": "Generate speech from text. Each character costs 0.1 credits. The cost is rounded up to the nearest whole number.",
+      "namespace": "audio-projects",
+      "output": "audio",
+      "required": [
+        "style"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [],
+        "fields": []
+      },
+      "style": {
+        "required": [
+          "prompt",
+          "voice_name"
+        ],
+        "fields": [
+          "prompt",
+          "voice_name"
+        ],
+        "enums": {
+          "voice_name": [
+            "Elon Musk",
+            "Mark Zuckerberg",
+            "Joe Rogan",
+            "Barack Obama",
+            "Morgan Freeman",
+            "Kanye West",
+            "Donald Trump",
+            "Joe Biden",
+            "Kim Kardashian",
+            "Taylor Swift",
+            "James Earl Jones",
+            "Samuel L. Jackson",
+            "Jeff Goldblum",
+            "David Attenborough",
+            "Sean Connery",
+            "Cillian Murphy",
+            "Anne Hathaway",
+            "Julia Roberts",
+            "Natalie Portman",
+            "Steve Carell",
+            "Amy Poehler",
+            "Stephen Colbert",
+            "Jimmy Fallon",
+            "David Letterman",
+            "Alex Trebek",
+            "Katy Perry",
+            "Prince",
+            "Kevin Bacon",
+            "Tom Hiddleston",
+            "Adam Driver",
+            "Alan Rickman",
+            "Alexz Johnson",
+            "Ana Gasteyer",
+            "Andrew Rannells",
+            "Arden Cho",
+            "Bear Grylls",
+            "Ben McKenzie",
+            "Ben Stiller",
+            "Ben Whishaw",
+            "Billie Joe Armstrong",
+            "Bingbing Li",
+            "Booboo Stewart",
+            "Bradley Steven Perry",
+            "Bruno Mars",
+            "Caity Lotz",
+            "Cameron Boyce",
+            "Candice Accola",
+            "Carrie Underwood",
+            "Casey Affleck",
+            "Caterina Scorsone",
+            "Cedric the Entertainer",
+            "Chace Crawford",
+            "Chadwick Boseman",
+            "Charlie Day",
+            "Chris Hemsworth",
+            "Chris Martin",
+            "Christopher Mintz-Plasse",
+            "Dan Fogler",
+            "Dan Stevens",
+            "Daniel Dae Kim",
+            "Danielle Panabaker",
+            "Dave Bautista",
+            "David Schwimmer",
+            "Denis Leary",
+            "Derek Mears",
+            "Diego Luna",
+            "Donald Glover",
+            "Donnie Yen",
+            "Doutzen Kroes",
+            "Dove Cameron",
+            "Dr. Dre",
+            "Drake Bell",
+            "Elle Fanning",
+            "Ernie Hudson",
+            "Fergie",
+            "Forest Whitaker",
+            "Francia Raisa",
+            "Freddie Highmore",
+            "Gillian Jacobs",
+            "Gina Carano",
+            "Ginnifer Goodwin",
+            "Gordon Ramsay",
+            "Guy Pearce",
+            "Gwendoline Christie",
+            "Hailee Steinfeld",
+            "Howie Mandel",
+            "Hugh Jackman",
+            "Hugh Laurie",
+            "J. K. Simmons",
+            "Jack Black",
+            "Jared Leto",
+            "Jennifer Carpenter",
+            "Kesha",
+            "Kris Jenner",
+            "Kristen Bell",
+            "Lorde",
+            "Matt Smith",
+            "Marilyn Monroe",
+            "Charlie Chaplin",
+            "Albert Einstein",
+            "Abraham Lincoln",
+            "John F. Kennedy",
+            "Lucille Ball",
+            "A.R. Rahman",
+            "Aamir Khan",
+            "Ajay Devgn",
+            "Akshay Kumar",
+            "Alain Delon",
+            "Alan Alda",
+            "Alan Cumming",
+            "Amitabh Bachchan",
+            "Ang Lee",
+            "Ansel Elgort",
+            "Anthony Anderson",
+            "Anthony Mackie",
+            "Armie Hammer",
+            "Asa Butterfield",
+            "B.J. Novak",
+            "Barbara Eden",
+            "Betty White",
+            "Bill Nighy",
+            "Bill Pullman",
+            "Blake Shelton",
+            "Bonnie Wright",
+            "Brad Paisley",
+            "Brendan Gleeson",
+            "Brian Cox",
+            "Bruno Ganz",
+            "Burt Reynolds",
+            "Carrie Fisher",
+            "Charles Dance",
+            "Chiwetel Ejiofor",
+            "Chris Pine",
+            "Christina Hendricks",
+            "Christina Ricci",
+            "Cyndi Lauper",
+            "Dakota Fanning",
+            "Damian Lewis",
+            "Dan Aykroyd",
+            "Daniel Craig",
+            "David Oyelowo",
+            "David Tennant",
+            "Diane Keaton",
+            "Diane Kruger",
+            "Dick Van Dyke",
+            "Domhnall Gleeson",
+            "Dominic Cooper",
+            "Donald Sutherland",
+            "Drew Carey",
+            "Eartha Kitt",
+            "Eddie Izzard",
+            "Edward Asner",
+            "Eli Roth",
+            "Elisabeth Moss",
+            "Ellen Burstyn",
+            "Emile Hirsch",
+            "Ezra Miller",
+            "Felicity Jones",
+            "Fiona Shaw",
+            "Florence Henderson",
+            "Freida Pinto",
+            "Geena Davis",
+            "Gemma Arterton",
+            "Geri Halliwell",
+            "Glenn Close",
+            "Gloria Steinem",
+            "Greta Gerwig",
+            "Gugu Mbatha-Raw",
+            "Hans Zimmer",
+            "Harry Connick Jr.",
+            "Harvey Keitel",
+            "Helena Bonham Carter",
+            "Henry Cavill",
+            "Hilary Swank",
+            "Hugh Bonneville",
+            "Idina Menzel",
+            "Imelda Staunton",
+            "Ingrid Bergman",
+            "Irrfan Khan",
+            "Isla Fisher",
+            "Iwan Rheon",
+            "Jack Lemmon",
+            "Janet Jackson",
+            "Jason Bateman",
+            "Jason Segel",
+            "Jennifer Coolidge",
+            "Johnny Galecki",
+            "Jon Favreau",
+            "Joseph Gordon-Levitt",
+            "Josh Brolin",
+            "Josh Gad",
+            "Josh Groban",
+            "Julia Louis-Dreyfus",
+            "Kristen Stewart",
+            "Kristen Wiig",
+            "Rooney Mara",
+            "Caitriona Balfe",
+            "J.J. Abrams",
+            "Zoe Saldana",
+            "SpongeBob SquarePants",
+            "Patrick Star",
+            "Squidward Tentacles",
+            "Homer Simpson",
+            "Bart Simpson",
+            "Peter Griffin",
+            "Stewie Griffin",
+            "Eric Cartman",
+            "Rick Sanchez",
+            "Bugs Bunny",
+            "Mickey Mouse",
+            "Donald Duck",
+            "Shrek",
+            "Donkey (Shrek)",
+            "Elsa (Frozen)",
+            "Woody (Toy Story)",
+            "Buzz Lightyear",
+            "Scooby-Doo",
+            "Shaggy Rogers",
+            "Bender (Futurama)",
+            "Optimus Prime",
+            "Batman (Animated)",
+            "The Joker (Animated)",
+            "Darth Vader",
+            "Yoda",
+            "Gollum Smeagol",
+            "Gandalf",
+            "Winnie the Pooh",
+            "Kermit the Frog",
+            "Elmo",
+            "SpiderMan (Tom Holland ver.)",
+            "Mario",
+            "Luigi",
+            "Sonic the Hedgehog",
+            "Naruto Uzumaki",
+            "Goku",
+            "Vegeta",
+            "Light Yagami",
+            "Luffy (One Piece)",
+            "Edward Elric",
+            "Eren Jaeger",
+            "Levi Ackerman",
+            "Tanjiro Kamado",
+            "All Might",
+            "GLaDOS",
+            "Master Chief",
+            "Kratos",
+            "Arthur Morgan",
+            "Geralt of Rivia",
+            "Dwayne 'The Rock' Johnson",
+            "LeBron James",
+            "Shaquille O'Neal",
+            "Conor McGregor",
+            "Mike Tyson",
+            "Kobe Bryant",
+            "Floyd Mayweather",
+            "Cristiano Ronaldo",
+            "Lionel Messi",
+            "Serena Williams",
+            "Tom Brady",
+            "Stephen Curry",
+            "John Cena",
+            "Hulk Hogan",
+            "Stone Cold Steve Austin",
+            "The Undertaker",
+            "Nate Diaz",
+            "Charles Barkley",
+            "Shannon Sharpe",
+            "Drake",
+            "Rihanna",
+            "Eminem",
+            "Snoop Dogg",
+            "Jay-Z",
+            "Ed Sheeran",
+            "Billie Eilish",
+            "Ariana Grande",
+            "Adele",
+            "Post Malone",
+            "Travis Scott",
+            "Nicki Minaj",
+            "Cardi B",
+            "Doja Cat",
+            "Bad Bunny",
+            "Justin Bieber",
+            "Sabrina Carpenter",
+            "Chappell Roan",
+            "Dua Lipa",
+            "The Weeknd",
+            "Miley Cyrus",
+            "Lady Gaga",
+            "Kendrick Lamar",
+            "Ozzy Osbourne",
+            "Freddie Mercury",
+            "Elvis Presley",
+            "Bob Marley",
+            "Frank Sinatra",
+            "MrBeast",
+            "PewDiePie",
+            "Kai Cenat",
+            "IShowSpeed",
+            "Markiplier",
+            "Jacksepticeye",
+            "KSI",
+            "Logan Paul",
+            "Jake Paul",
+            "Dream (Minecraft)",
+            "Corpse Husband",
+            "xQc",
+            "Pokimane",
+            "Valkyrae",
+            "Ninja",
+            "Joe Scott",
+            "Linus (LTT)",
+            "Ryan Reynolds",
+            "Tom Hanks",
+            "Robert Downey Jr.",
+            "Will Smith",
+            "Denzel Washington",
+            "Leonardo DiCaprio",
+            "Brad Pitt",
+            "Keanu Reeves",
+            "Nicolas Cage",
+            "Al Pacino",
+            "Robert De Niro",
+            "Arnold Schwarzenegger",
+            "Sylvester Stallone",
+            "Vin Diesel",
+            "Jason Statham",
+            "Tom Cruise",
+            "Johnny Depp",
+            "Scarlett Johansson",
+            "Angelina Jolie",
+            "Jennifer Aniston",
+            "Emma Watson",
+            "Margot Robbie",
+            "Sydney Sweeney",
+            "Zendaya",
+            "Timothee Chalamet",
+            "Pedro Pascal",
+            "Oscar Isaac",
+            "Benedict Cumberbatch",
+            "Ian McKellen",
+            "Patrick Stewart",
+            "Christopher Walken",
+            "Matthew McConaughey",
+            "Harrison Ford",
+            "Mark Wahlberg",
+            "Owen Wilson",
+            "Seth Rogen",
+            "Kevin Hart",
+            "Adam Sandler",
+            "Jim Carrey",
+            "Eddie Murphy",
+            "Robin Williams",
+            "Will Ferrell",
+            "Melissa McCarthy",
+            "Awkwafina",
+            "Jason Momoa",
+            "Idris Elba",
+            "Tom Hardy",
+            "Michael B. Jordan",
+            "Austin Butler",
+            "Glen Powell",
+            "Paul Giamatti",
+            "Bryan Cranston",
+            "Bob Odenkirk",
+            "Vladimir Putin",
+            "Queen Elizabeth II",
+            "Winston Churchill",
+            "Martin Luther King Jr.",
+            "Kamala Harris",
+            "Bernie Sanders",
+            "Alexandria Ocasio-Cortez",
+            "Narendra Modi",
+            "Oprah Winfrey",
+            "Ellen DeGeneres",
+            "Dr. Phil",
+            "Steve Harvey",
+            "Trevor Noah",
+            "John Oliver",
+            "James Corden",
+            "Ryan Seacrest",
+            "Howard Stern",
+            "Conan O'Brien",
+            "Seth Meyers",
+            "Bill Nye",
+            "Neil deGrasse Tyson",
+            "Guy Fieri",
+            "Dave Chappelle",
+            "Chris Rock",
+            "Jerry Seinfeld",
+            "Ali Wong",
+            "John Mulaney",
+            "Hasan Minhaj",
+            "Nikki Glaser",
+            "Matt Rife",
+            "Gabriel Iglesias",
+            "Bo Burnham",
+            "Jeff Bezos",
+            "Bill Gates",
+            "Steve Jobs",
+            "Tim Cook",
+            "Sam Altman",
+            "Jensen Huang",
+            "Gilbert Gottfried",
+            "James May",
+            "Jeremy Clarkson",
+            "Richard Hammond",
+            "Bob Ross",
+            "Anthony Bourdain",
+            "David Goggins",
+            "Jordan Peterson",
+            "Joe Pesci",
+            "Danny DeVito",
+            "Seth MacFarlane",
+            "Patrick Warburton",
+            "Keith David",
+            "Mark Hamill",
+            "Liam Neeson",
+            "Antonio Banderas",
+            "Sofia Vergara",
+            "Penelope Cruz",
+            "Gal Gadot",
+            "Cate Blanchett",
+            "Viola Davis",
+            "Meryl Streep",
+            "Sandra Bullock",
+            "Reese Witherspoon",
+            "Salma Hayek",
+            "Lupita Nyong'o",
+            "Florence Pugh",
+            "Jenna Ortega",
+            "Ana de Armas",
+            "Jacob Elordi",
+            "Barry White",
+            "Dolly Parton",
+            "Willie Nelson",
+            "Lil Wayne",
+            "50 Cent",
+            "Ice Cube",
+            "Tupac Shakur",
+            "Notorious B.I.G.",
+            "Bob Dylan",
+            "David Bowie",
+            "Michael Jackson",
+            "Whitney Houston",
+            "Amy Winehouse",
+            "SZA",
+            "Tyler, The Creator",
+            "Thanos",
+            "Tony Stark",
+            "Captain Jack Sparrow",
+            "Walter White",
+            "Tommy Shelby",
+            "Michael Scott",
+            "Dwight Schrute",
+            "Bowser",
+            "Usain Bolt",
+            "Tyson Fury",
+            "Dana White",
+            "Pat McAfee",
+            "Giannis Antetokounmpo",
+            "Lex Fridman",
+            "Ben Shapiro",
+            "Tucker Carlson",
+            "Martha Stewart",
+            "Gordon Lightfoot",
+            "Lizzo",
+            "Megan Thee Stallion",
+            "Ice Spice",
+            "21 Savage",
+            "Metro Boomin",
+            "Jack Harlow",
+            "Peso Pluma",
+            "BTS Jungkook",
+            "Quentin Tarantino",
+            "Werner Herzog",
+            "Anderson Cooper",
+            "Rachel Maddow",
+            "Mahatma Gandhi",
+            "Muhammad Ali",
+            "Princess Diana",
+            "Nelson Mandela",
+            "Steve Irwin",
+            "Morty Smith",
+            "Andrew Huberman",
+            "Willem Dafoe",
+            "Mike Rowe",
+            "Terminator",
+            "Deadpool",
+            "Plankton",
+            "Mr. Krabs",
+            "Picard"
+          ]
+        }
+      }
+    },
+    "animation": {
+      "path": "/v1/animation",
+      "operation": "animation",
+      "summary": "Animation",
+      "description": "Create a Animation video. The estimated frame cost is calculated based on the `fps` and `end_seconds` input.",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "fps",
+        "end_seconds",
+        "height",
+        "width",
+        "style",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "fps": {
+          "type": "number",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "height": {
+          "type": "integer",
+          "enum": null
+        },
+        "width": {
+          "type": "integer",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "audio_source"
+        ],
+        "fields": [
+          "audio_file_path",
+          "audio_source",
+          "image_file_path",
+          "youtube_url"
+        ]
+      },
+      "style": {
+        "required": [
+          "art_style",
+          "camera_effect",
+          "prompt_type",
+          "transition_speed"
+        ],
+        "fields": [
+          "art_style",
+          "art_style_custom",
+          "camera_effect",
+          "prompt",
+          "prompt_type",
+          "transition_speed"
+        ],
+        "enums": {
+          "art_style": [
+            "Custom",
+            "Painterly Illustration",
+            "Vibrant Matte Illustration",
+            "Traditional Watercolor",
+            "Cyberpunk",
+            "Ink and Watercolor Portrait",
+            "Intricate Abstract Lines Portrait",
+            "3D Render",
+            "Old School Comic",
+            "Bold Colored Illustration",
+            "Synthwave",
+            "Minimal Cold Futurism",
+            "Futuristic Anime",
+            "Cinematic Miyazaki",
+            "Studio Ghibli Film Still",
+            "Soft Delicate Matte Portrait",
+            "Cinematic Landscape",
+            "Landscape Painting",
+            "Photograph",
+            "Jackson Pollock",
+            "Cubist",
+            "Abstract Minimalist",
+            "Impressionism",
+            "Van Gogh",
+            "Woodcut",
+            "Oil Painting",
+            "Vintage Japanese Anime",
+            "Pixar",
+            "Cosmic",
+            "Pixel Art",
+            "Fantasy",
+            "Arcane",
+            "Sin City",
+            "Double Exposure",
+            "Painted Cityscape",
+            "90s Streets",
+            "Overgrown",
+            "Postapocalyptic",
+            "Spooky",
+            "Miniatures",
+            "Low Poly",
+            "Art Deco",
+            "Inkpunk",
+            "Dark Graphic Illustration",
+            "Dark Watercolor",
+            "Faded Illustration",
+            "Directed by AI"
+          ],
+          "camera_effect": [
+            "Simple Zoom Out",
+            "Simple Zoom In",
+            "Bounce Out",
+            "Spin Bounce",
+            "Rolling Bounces",
+            "Rise and Climb",
+            "Dramatic Zoom In",
+            "Dramatic Zoom Out",
+            "Sway Out",
+            "Boost Zoom In",
+            "Boost Zoom Out",
+            "Heartbeat",
+            "Bounce in Place",
+            "Earthquake Bounce",
+            "Slice Bounce",
+            "Bounce In And Out",
+            "Jump",
+            "Road Trip",
+            "Traverse",
+            "Rubber Band",
+            "Rodeo",
+            "Accelerate",
+            "Speed of Light",
+            "Drift Spin",
+            "Vertigo",
+            "Cog in the Machine",
+            "Quadrant",
+            "Tron",
+            "Pusher",
+            "Roll In",
+            "Hesitate In",
+            "Zoom In - Audio Sync",
+            "Pulse - Audio Sync",
+            "Aggressive Zoom In - Audio Sync",
+            "Roll In - Audio Sync",
+            "Zoom Out - Audio Sync",
+            "Aggressive Zoom Out - Audio Sync",
+            "Sway Out - Audio Sync",
+            "Bounce and Spin - Audio Sync",
+            "Zoom In and Spin - Audio Sync",
+            "Vertigo - Audio Sync",
+            "Bounce Out - Audio Sync",
+            "Earthquake Bounce - Audio Sync",
+            "Pusher - Audio Sync",
+            "Evolve - Audio Sync",
+            "Devolve - Audio Sync",
+            "Slideshow",
+            "Pan Left",
+            "Pan Right",
+            "Tilt Up",
+            "Tilt Down",
+            "Directed by AI"
+          ],
+          "prompt_type": [
+            "custom",
+            "use_lyrics",
+            "ai_choose"
+          ]
+        }
+      }
+    },
+    "audio-to-video": {
+      "path": "/v1/audio-to-video",
+      "operation": "audio-to-video",
+      "summary": "Audio-to-Video",
+      "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "end_seconds",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "start_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "480p",
+            "720p",
+            "1080p"
+          ]
+        }
+      },
+      "assets": {
+        "required": [
+          "audio_file_path"
+        ],
+        "fields": [
+          "audio_file_path",
+          "image_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "prompt"
+        ],
+        "enums": {}
+      }
+    },
+    "auto-subtitle-generator": {
+      "path": "/v1/auto-subtitle-generator",
+      "operation": "auto-subtitle-generator",
+      "summary": "Auto Subtitle Generator",
+      "description": "Automatically generate subtitles for your video in multiple languages.",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "start_seconds",
+        "end_seconds",
+        "assets",
+        "style"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "start_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "video_file_path"
+        ],
+        "fields": [
+          "video_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "custom_config",
+          "template"
+        ],
+        "enums": {
+          "template": [
+            "karaoke",
+            "cinematic",
+            "minimalist",
+            "highlight"
+          ]
+        }
+      }
+    },
+    "body-swap": {
+      "path": "/v1/body-swap",
+      "operation": "body-swap",
+      "summary": "Body Swap",
+      "description": "Swap a person into a scene image using Nano Banana 2 Lite (640px/1k) or Nano Banana 2 (2k/4k). Credits depend on `resolution` (from 50 credits at 640px upward).",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "resolution",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "640px",
+            "1k",
+            "2k",
+            "4k"
+          ]
+        }
+      },
+      "assets": {
+        "required": [
+          "person_file_path",
+          "scene_file_path"
+        ],
+        "fields": [
+          "person_file_path",
+          "scene_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [],
+        "enums": {}
+      }
+    },
+    "character-replace": {
+      "path": "/v1/character-replace",
+      "operation": "character-replace",
+      "summary": "Character Replace",
+      "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "end_seconds",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "start_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "480p",
+            "720p"
+          ]
+        }
+      },
+      "assets": {
+        "required": [
+          "video_file_path",
+          "image_file_path"
+        ],
+        "fields": [
+          "image_file_path",
+          "video_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "mode",
+          "points",
+          "selection_mode"
+        ],
+        "enums": {
+          "mode": [
+            "replace",
+            "animate"
+          ],
+          "selection_mode": [
+            "auto",
+            "point"
+          ]
+        }
+      }
+    },
+    "face-swap": {
+      "path": "/v1/face-swap",
+      "operation": "face-swap",
+      "summary": "Face Swap Video",
+      "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "start_seconds",
+        "end_seconds",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "start_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "video_source"
+        ],
+        "fields": [
+          "face_mappings",
+          "face_swap_mode",
+          "image_file_path",
+          "video_file_path",
+          "video_source",
+          "youtube_url"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "version"
+        ],
+        "enums": {
+          "version": [
+            "v1",
+            "v2",
+            "default"
+          ]
+        }
+      }
+    },
+    "face-swap-photo": {
+      "path": "/v1/face-swap-photo",
+      "operation": "face-swap-photo",
+      "summary": "Face Swap Photo",
+      "description": "Create a face swap photo. Each photo costs 10 credits. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "target_file_path"
+        ],
+        "fields": [
+          "face_mappings",
+          "face_swap_mode",
+          "source_file_path",
+          "target_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [],
+        "enums": {}
+      }
+    },
+    "head-swap": {
+      "path": "/v1/head-swap",
+      "operation": "head-swap",
+      "summary": "Head Swap",
+      "description": "Swap a head onto a body image. Each image costs 10 credits. Output resolution depends on your subscription; you may set `max_resolution` lower than your plan maximum if desired.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "max_resolution": {
+          "type": "integer",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "body_file_path",
+          "head_file_path"
+        ],
+        "fields": [
+          "body_file_path",
+          "head_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [],
+        "enums": {}
+      }
+    },
+    "image-background-remover": {
+      "path": "/v1/image-background-remover",
+      "operation": "image-background-remover",
+      "summary": "Image Background Remover",
+      "description": "Remove background from image. Each image costs 5 credits.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "image_file_path"
+        ],
+        "fields": [
+          "background_image_file_path",
+          "image_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [],
+        "enums": {}
+      }
+    },
+    "image-to-video": {
+      "path": "/v1/image-to-video",
+      "operation": "image-to-video",
+      "summary": "Image-to-Video",
+      "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "end_seconds",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "model": {
+          "type": "string",
+          "enum": [
+            "default",
+            "ltx-2",
+            "ltx-2.3",
+            "ltx-2.5",
+            "minimax-h3",
+            "wan-2.2",
+            "seedance-1.5",
+            "seedance-2.0",
+            "seedance-2.0-mini",
+            "seedance-2.5",
+            "kling-2.5",
+            "kling-2.6",
+            "kling-3.0",
+            "gemini-omni-1.1",
+            "veo3.1",
+            "veo3.1-lite",
+            "sora-2",
+            "kling-1.6",
+            "seedance",
+            "kling-2.5-audio",
+            "veo3.1-audio"
+          ]
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "360p",
+            "480p",
+            "720p",
+            "1080p",
+            "4k"
+          ]
+        },
+        "audio": {
+          "type": "boolean",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "image_file_path"
+        ],
+        "fields": [
+          "end_image_file_path",
+          "image_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "prompt"
+        ],
+        "enums": {}
+      }
+    },
+    "lip-sync": {
+      "path": "/v1/lip-sync",
+      "operation": "lip-sync",
+      "summary": "Lip Sync",
+      "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "start_seconds",
+        "end_seconds",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "start_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "max_fps_limit": {
+          "type": "number",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "audio_file_path",
+          "video_source"
+        ],
+        "fields": [
+          "audio_file_path",
+          "video_file_path",
+          "video_source",
+          "youtube_url"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [
+          "generation_mode"
+        ],
+        "enums": {
+          "generation_mode": [
+            "lite",
+            "standard",
+            "pro"
+          ]
+        }
+      }
+    },
+    "photo-colorizer": {
+      "path": "/v1/photo-colorizer",
+      "operation": "photo-colorizer",
+      "summary": "Photo Colorizer",
+      "description": "Colorize image. Each image costs 10 credits.",
+      "namespace": "image-projects",
+      "output": "image",
+      "required": [
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [
+          "image_file_path"
+        ],
+        "fields": [
+          "image_file_path"
+        ]
+      },
+      "style": {
+        "required": [],
+        "fields": [],
+        "enums": {}
+      }
+    },
+    "text-to-video": {
+      "path": "/v1/text-to-video",
+      "operation": "text-to-video",
+      "summary": "Text-to-Video",
+      "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "end_seconds",
+        "style"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "aspect_ratio": {
+          "type": "string",
+          "enum": [
+            "16:9",
+            "9:16",
+            "1:1"
+          ]
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "360p",
+            "480p",
+            "720p",
+            "1080p",
+            "4k"
+          ]
+        },
+        "model": {
+          "type": "string",
+          "enum": [
+            "default",
+            "ltx-2",
+            "ltx-2.3",
+            "ltx-2.5",
+            "minimax-h3",
+            "wan-2.2",
+            "seedance-1.5",
+            "seedance-2.0",
+            "seedance-2.0-mini",
+            "seedance-2.5",
+            "kling-2.5",
+            "kling-2.6",
+            "kling-3.0",
+            "gemini-omni-1.1",
+            "veo3.1",
+            "veo3.1-lite",
+            "sora-2",
+            "kling-1.6",
+            "seedance",
+            "kling-2.5-audio",
+            "veo3.1-audio"
+          ]
+        },
+        "audio": {
+          "type": "boolean",
+          "enum": null
+        }
+      },
+      "assets": {
+        "required": [],
+        "fields": []
+      },
+      "style": {
+        "required": [
+          "prompt"
+        ],
+        "fields": [
+          "prompt"
+        ],
+        "enums": {}
+      }
+    },
+    "video-to-video": {
+      "path": "/v1/video-to-video",
+      "operation": "video-to-video",
+      "summary": "Video-to-Video",
+      "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).",
+      "namespace": "video-projects",
+      "output": "video",
+      "required": [
+        "start_seconds",
+        "end_seconds",
+        "style",
+        "assets"
+      ],
+      "fields": {
+        "name": {
+          "type": "string",
+          "enum": null
+        },
+        "start_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "end_seconds": {
+          "type": "number",
+          "enum": null
+        },
+        "fps_resolution": {
+          "type": "string",
+          "enum": [
+            "FULL",
+            "HALF"
+          ]
+        }
+      },
+      "assets": {
+        "required": [
+          "video_source"
+        ],
+        "fields": [
+          "video_file_path",
+          "video_source",
+          "youtube_url"
+        ]
+      },
+      "style": {
+        "required": [
+          "art_style"
+        ],
+        "fields": [
+          "art_style",
+          "model",
+          "prompt",
+          "prompt_type",
+          "version"
+        ],
+        "enums": {
+          "art_style": [
+            "Minecraft",
+            "Watercolor",
+            "Pixel",
+            "Retro Sci-Fi",
+            "Lego",
+            "Origami",
+            "Ghost",
+            "Sub-Zero",
+            "Studio Ghibli",
+            "Comic",
+            "Impressionism",
+            "Master Chief",
+            "Solid Snake",
+            "Street Fighter",
+            "Hologram",
+            "GTA",
+            "Clay",
+            "Mystique",
+            "Dragonball Z",
+            "Mario",
+            "Samurai",
+            "Spartan",
+            "Boba Fett",
+            "3D Render",
+            "Airbender",
+            "Android",
+            "Anime Warrior",
+            "Armored Knight",
+            "Assassin's Creed",
+            "Avatar",
+            "Black Spiderman",
+            "Bold Anime",
+            "Celestial Skin",
+            "Chinese Swordsmen",
+            "Cyberpunk",
+            "Cypher",
+            "Dark Fantasy",
+            "Future Bot",
+            "Futuristic Fantasy",
+            "Ghibli Anime",
+            "Gundam",
+            "Illustration",
+            "Ink",
+            "Ink Poster",
+            "Jinx",
+            "Knight",
+            "Link",
+            "Marble",
+            "Mech",
+            "Naruto",
+            "Neon Dream",
+            "No Art Style",
+            "Oil Painting",
+            "On Fire",
+            "Painterly Anime",
+            "Pixar",
+            "Power Armor",
+            "Power Ranger",
+            "Radiant Anime",
+            "Realistic Anime",
+            "Realistic Pixar",
+            "Retro Anime",
+            "Samurai Bot",
+            "Sharp Anime",
+            "Soft Anime",
+            "Starfield",
+            "The Void",
+            "Tomb Raider",
+            "Underwater",
+            "Van Gogh",
+            "Viking",
+            "Western Anime",
+            "Wu Kong",
+            "Wuxia Anime",
+            "Zelda"
+          ],
+          "version": [
+            "v1",
+            "v2",
+            "default"
+          ],
+          "prompt_type": [
+            "default",
+            "custom",
+            "append_default"
+          ],
+          "model": [
+            "Dreamshaper",
+            "Absolute Reality",
+            "Flat 2D Anime",
+            "Soft Anime",
+            "Kaywaii",
+            "Western Anime",
+            "3D Anime",
+            "default"
+          ]
+        }
+      }
+    }
+  }
+}
