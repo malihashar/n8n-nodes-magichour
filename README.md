@@ -199,9 +199,17 @@ and a rate limit suggests the fix rather than repeating the status code.
 
 ## Links
 
-- [Magic Hour API documentation](https://docs.magichour.ai)
-- [Support](mailto:support@magichour.ai)
-- [Issues](https://github.com/magichourhq/n8n-nodes-magichour/issues)
+Same support surface as the Magic Hour Apify Actors:
+
+| | URL |
+|---|---|
+| Product | https://magichour.ai |
+| API docs | https://docs.magichour.ai |
+| API keys | https://magichour.ai/developer?tab=api-keys |
+| Pricing | https://magichour.ai/pricing |
+| Support | support@magichour.ai |
+| Community | https://discord.gg/JX5rgsZaJp |
+| Issues (this node) | https://github.com/malihashar/n8n-nodes-magichour/issues |
 
 ## License
 
