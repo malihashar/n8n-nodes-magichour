@@ -1,62 +1,49 @@
-# Brief status — official Magic Hour n8n integration
+# Brief status — Magic Hour n8n integration (personal publish path)
 
-Against the “Build and publish the official Magic Hour n8n integration” task.
-**This is not complete.** npm existence alone is not the bar; verified discovery in n8n Cloud is.
+**Ownership decision:** ship under **malihashar** (GitHub + npm + Creator Portal).
+Node UI / product name stays **Magic Hour**. No `magichourhq` org required.
 
-## Scoreboard
+## What that changes vs the original brief
 
-| # | Requirement | Status | Notes |
-|---|---|---|---|
-| Ownership | `magichourhq/n8n-nodes-magichour` GitHub | ❌ | Live at `malihashar/n8n-nodes-magichour` only — transfer when org access exists |
-| Ownership | `@magichourhq/n8n-nodes-magichour` npm | ❌ | Not published; no npm login / org token on this machine |
-| Ownership | Creator Portal = company email | ❌ | Not submitted |
-| 1 | n8n-node starter + tooling | ✅ | `@n8n/node-cli`, lint/build/release |
-| 1 | GHA publish + npm provenance | ⚠️ | `publish.yml` present (token env fixed); needs org repo + OIDC/trusted publisher |
-| 2 | API docs / OpenAPI as source of truth | ⚠️ | Catalog synced from `magic-hour-channels` endpoints (MH production OpenAPI dump). Re-fetch from docs.magichour.ai before submit |
-| 3 | V1 prioritized ops | ✅ | All V1 ops present (plus extra stable endpoints) |
-| 4 | Wait / no-wait + timeout | ✅ | Default wait=yes |
-| 5 | Native n8n binary → presigned upload | ✅ | Image/video/audio kinds in transport |
-| 5 | Explicit Upload utility | ✅ | File → Upload Media (returns `filePath`) |
-| 6 | Credential + test + key link | ✅ | Test via `POST /files/upload-urls` |
-| 7 | usableAsTool (AI Agent) | ⚠️ | Flag on; **not** E2E-tested in a real Agent workflow yet |
-| 8 | MIT, TS, no runtime deps, lint/build | ✅ | |
-| 8 | Public GitHub under company | ❌ | Private/personal until org transfer + public |
-| 9 | Full E2E matrix on real n8n | ❌ | API smoke only (image gen). No n8n instance run of I2V/Face Swap/Agent/… |
-| 10 | `source=n8n` attribution | ⚠️ | Sends `X-MagicHour-Source: n8n` + UA — **needs backend confirmation** it is counted |
-| 11 | 3 templates | ✅ | Under `templates/` |
-| 12 | npm publish + Creator Portal + approved | ❌ | Blocked on company GitHub/npm + Portal |
-
-## Definition of done — honest check
-
-| DoD item | Met? |
+| Original brief | Personal path |
 |---|---|
-| Magic Hour owns repo + npm | No |
-| Major workflows work E2E **in n8n** | No (API yes, n8n UI no) |
-| File uploads work | Code yes; n8n E2E no |
-| Async generation works | Code + API smoke yes |
-| AI Agent usage tested | No |
-| Package meets verification rules | Mostly code-side; ownership/public/provenance publish pending |
-| Submitted to n8n | No |
-| Approved + searchable in Cloud | No |
-| n8n.io Magic Hour page | No |
-| Attribution instrumented | Header present; analytics unconfirmed |
-| 3 templates published | Drafts in repo; not on n8n template gallery |
+| `magichourhq/n8n-nodes-magichour` | `malihashar/n8n-nodes-magichour` ✅ already |
+| `@magichourhq/n8n-nodes-magichour` | `n8n-nodes-magichour` (unscoped) — publishable by you |
+| Company Creator Portal email | Your email |
+| “Official company Verified Partner” | Still possible as **verified community** under your name; Partner/vendor badge may be limited without company |
+| Company must own forever | You own; Magic Hour named in node UI, docs links, contributor |
 
-## What “continue” still needs from the company
+**Unchanged:** product branding in the picker (“Magic Hour”), docs/pricing links to magichour.ai, BYOK keys, `source=n8n` header.
 
-1. Invite maintainer to **GitHub org `magichourhq`** with repo create/transfer.
-2. Transfer or recreate repo → make **public**.
-3. **npm org `@magichourhq`**: Trusted Publisher for `publish.yml` (or `NPM_TOKEN` secret).
-4. Confirm with eng that `X-MagicHour-Source: n8n` (or agreed alternative) lands in usage analytics.
-5. **n8n Creator Portal** login with company email → submit package after first provenance publish.
-6. Real **n8n Cloud or self-hosted** instance for the §9 test matrix + Agent tests.
-7. Publish the three templates in the n8n template flow once the verified node ID is final.
+## Scoreboard (updated)
 
-## What is already good to keep
+| # | Requirement | Status |
+|---|---|---|
+| Ownership GitHub | ✅ `malihashar/n8n-nodes-magichour` |
+| Ownership npm name | ⚠️ Package renamed to `n8n-nodes-magichour` — **not published yet** |
+| Creator Portal | ❌ Submit with your account after npm publish |
+| n8n-node tooling + provenance workflow | ✅ |
+| V1 ops + wait + binary upload + credential | ✅ |
+| Upload utility + 3 templates | ✅ |
+| Public repo | ❌ Make GitHub repo **public** before verification |
+| npm publish + GHA provenance | ❌ Need `npm login` + Trusted Publisher on this repo |
+| E2E on real n8n + AI Agent | ❌ |
+| Backend confirms `source=n8n` | ⚠️ ask eng |
+| Verified / searchable in Cloud | ❌ after submit + approval |
 
-- One node, resource/operation selectors, BYOK credential.
-- Async wait default on, timeout, project get-status.
-- Binary → upload-urls → `file_path` → generate.
-- Output shape with `projectId`, `status`, `creditsCharged`, `outputUrl` / `downloadUrls`, `externalId`.
-- Official starter `publish.yml` (provenance-oriented) + CI lint/coverage/build.
-- Support/docs URLs point at Magic Hour properties.
+## Still do next (all under your name)
+
+1. Make the GitHub repo public  
+2. `npm login` (your npm user)  
+3. npm Trusted Publisher → this GitHub repo / `publish.yml`  
+4. Tag `0.2.1` (or run release) → GHA publishes with provenance  
+5. Install in n8n: Community Nodes → `n8n-nodes-magichour`  
+6. Run `TESTING.md` matrix  
+7. Creator Portal submit  
+8. Publish templates once node ID is stable  
+
+## Honest branding note
+
+- **Do:** display name “Magic Hour”, link docs/support to Magic Hour, say built for Magic Hour API.  
+- **Don’t:** claim the npm scope `@magichourhq` or GitHub org you don’t control.  
+- If Magic Hour later wants company ownership, transfer repo + republish under their scope.
