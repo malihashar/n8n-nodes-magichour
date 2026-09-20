@@ -49,10 +49,11 @@ export class MagicHour implements INodeType {
 				noDataExpression: true,
 				default: 'video',
 				options: [
-					{ name: 'Video', value: 'video' },
-					{ name: 'Image', value: 'image' },
 					{ name: 'Audio', value: 'audio' },
+					{ name: 'File', value: 'file' },
+					{ name: 'Image', value: 'image' },
 					{ name: 'Project', value: 'project' },
+					{ name: 'Video', value: 'video' },
 				],
 			},
 			{
@@ -93,6 +94,19 @@ export class MagicHour implements INodeType {
 				name: 'operation',
 				type: 'options',
 				noDataExpression: true,
+				default: 'upload',
+				displayOptions: { show: { resource: ['file'] } },
+				options: [{
+					name: 'Upload Media', value: 'upload',
+					action: 'Upload media to magic hour',
+					description: 'Upload a binary file and get a Magic Hour file path for later generations',
+				}],
+			},
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
 				default: 'get',
 				displayOptions: { show: { resource: ['project'] } },
 				options: [{
@@ -100,6 +114,28 @@ export class MagicHour implements INodeType {
 					action: 'Get a project status',
 					description: 'Look up a generation by its project ID',
 				}],
+			},
+			{
+				displayName: 'Binary Property',
+				name: 'uploadBinaryProperty',
+				type: 'string',
+				default: 'data',
+				required: true,
+				description: 'Name of the binary field to upload',
+				displayOptions: { show: { resource: ['file'], operation: ['upload'] } },
+			},
+			{
+				displayName: 'Media Kind',
+				name: 'uploadKind',
+				type: 'options',
+				default: 'image',
+				description: 'What kind of file this is (sets Magic Hour upload type)',
+				options: [
+					{ name: 'Image', value: 'image' },
+					{ name: 'Video', value: 'video' },
+					{ name: 'Audio', value: 'audio' },
+				],
+				displayOptions: { show: { resource: ['file'], operation: ['upload'] } },
 			},
 			{
 				displayName: 'Project ID',
@@ -176,6 +212,18 @@ export class MagicHour implements INodeType {
 						'video-projects' | 'image-projects' | 'audio-projects';
 					const body = await magicHourRequest.call(this, 'GET', `/${namespace}/${projectId}`);
 					results.push({ json: body as IDataObject, pairedItem: { item: i } });
+					continue;
+				}
+
+				if (resource === 'file') {
+					const property = this.getNodeParameter('uploadBinaryProperty', i, 'data') as string;
+					const kind = this.getNodeParameter('uploadKind', i, 'image') as
+						'image' | 'video' | 'audio';
+					const filePath = await uploadBinary.call(this, i, property, kind);
+					results.push({
+						json: { filePath, kind, status: 'uploaded' },
+						pairedItem: { item: i },
+					});
 					continue;
 				}
 

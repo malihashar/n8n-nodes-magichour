@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1
+
+- Add File → Upload Media utility (presigned upload → `filePath`).
+- Add three n8n templates (product I2V, social T2V, UGC talking photo).
+- Add STATUS.md / TESTING.md against the official verification brief.
+- Fix `publish.yml` npm token env for provenance releases.
+
 ## 0.2.0
 
 - Cover all 27 Magic Hour generation endpoints (parity with Apify Actors).

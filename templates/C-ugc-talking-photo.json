@@ -1,0 +1,111 @@
+{
+  "name": "Magic Hour — UGC talking photo",
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "description": "Drive portrait + audio/script → Magic Hour Talking Photo → Drive"
+  },
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 300]
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": { "__rl": true, "mode": "list", "value": "" }
+      },
+      "id": "portrait",
+      "name": "Portrait from Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [240, 180],
+      "notes": "Select a face/portrait image"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": { "__rl": true, "mode": "list", "value": "" }
+      },
+      "id": "audio",
+      "name": "Audio from Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [240, 420],
+      "notes": "Select the spoken script audio (mp3/wav)"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "merge",
+      "name": "Merge Portrait + Audio",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "talkingPhoto",
+        "imageSource": "binary",
+        "imageBinaryProperty": "data",
+        "audioSource": "binary",
+        "audioBinaryProperty": "data",
+        "durationSeconds": 10,
+        "externalId": "ugc-talking-photo",
+        "waitForCompletion": true,
+        "timeoutSeconds": 1200
+      },
+      "id": "mh",
+      "name": "Magic Hour Talking Photo",
+      "type": "n8n-nodes-magichour.magicHour",
+      "typeVersion": 1,
+      "position": [720, 300],
+      "credentials": { "magicHourApi": { "id": "REPLACE", "name": "Magic Hour API" } },
+      "notes": "If merge renames binaries, set Image/Audio Field Name to the merged binary keys"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "url": "={{ $json.outputUrl }}",
+        "options": { "response": { "response": { "responseFormat": "file" } } }
+      },
+      "id": "dl",
+      "name": "Download Result",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "name": "talking_photo_ugc.mp4",
+        "driveId": { "__rl": true, "mode": "list", "value": "My Drive" },
+        "folderId": { "__rl": true, "mode": "list", "value": "root" }
+      },
+      "id": "drive",
+      "name": "Save to Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [1200, 300]
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [[
+        { "node": "Portrait from Drive", "type": "main", "index": 0 },
+        { "node": "Audio from Drive", "type": "main", "index": 0 }
+      ]]
+    },
+    "Portrait from Drive": { "main": [[{ "node": "Merge Portrait + Audio", "type": "main", "index": 0 }]] },
+    "Audio from Drive": { "main": [[{ "node": "Merge Portrait + Audio", "type": "main", "index": 1 }]] },
+    "Merge Portrait + Audio": { "main": [[{ "node": "Magic Hour Talking Photo", "type": "main", "index": 0 }]] },
+    "Magic Hour Talking Photo": { "main": [[{ "node": "Download Result", "type": "main", "index": 0 }]] },
+    "Download Result": { "main": [[{ "node": "Save to Drive", "type": "main", "index": 0 }]] }
+  }
+}
