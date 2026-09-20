@@ -36,13 +36,16 @@ export class MagicHourApi implements ICredentialType {
 		},
 	};
 
-	// Cheap, read-only call so saving the credential verifies the key without
-	// spending any credits.
+	// Cheap call that requires a valid key but spends no generation credits.
+	// List endpoints 404; upload-urls is the reliable auth probe (401 on bad key).
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://api.magichour.ai/v1',
-			url: '/image-projects',
-			method: 'GET',
+			url: '/files/upload-urls',
+			method: 'POST',
+			body: {
+				items: [{ type: 'image', extension: 'png' }],
+			},
 		},
 	};
 }
