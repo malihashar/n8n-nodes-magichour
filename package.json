@@ -1,7 +1,7 @@
 {
   "name": "@magichourhq/n8n-nodes-magichour",
-  "version": "0.1.0",
-  "description": "Generate and edit video and images with Magic Hour",
+  "version": "0.2.0",
+  "description": "Generate and edit video, image and audio with Magic Hour",
   "license": "MIT",
   "homepage": "https://magichour.ai",
   "keywords": [
@@ -27,6 +27,7 @@
     "dev": "n8n-node dev",
     "lint": "n8n-node lint",
     "lint:fix": "n8n-node lint --fix",
+    "coverage": "node scripts/check-coverage.js",
     "release": "n8n-node release",
     "prepublishOnly": "n8n-node prerelease"
   },

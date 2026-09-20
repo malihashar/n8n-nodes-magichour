@@ -1,0 +1,62 @@
+{
+  "name": "Magic Hour — Image to Video",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "url": "https://cdn.magichour.ai/assets/example-portrait.png",
+        "options": {}
+      },
+      "id": "http-image",
+      "name": "Fetch Sample Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 0]
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "imageToVideo",
+        "imageSource": "binary",
+        "imageBinaryProperty": "data",
+        "prompt": "Subtle smile, soft camera push-in, cinematic lighting",
+        "durationSeconds": 5,
+        "externalId": "demo-i2v-1",
+        "waitForCompletion": true,
+        "timeoutSeconds": 900,
+        "options": {
+          "resolution": "720p"
+        }
+      },
+      "id": "magic-hour",
+      "name": "Magic Hour",
+      "type": "n8n-nodes-magichour.magicHour",
+      "typeVersion": 1,
+      "position": [480, 0],
+      "credentials": {
+        "magicHourApi": {
+          "id": "REPLACE_ME",
+          "name": "Magic Hour API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [[{ "node": "Fetch Sample Image", "type": "main", "index": 0 }]]
+    },
+    "Fetch Sample Image": {
+      "main": [[{ "node": "Magic Hour", "type": "main", "index": 0 }]]
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}
